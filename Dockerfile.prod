@@ -1,0 +1,15 @@
+FROM golang AS gobuilder
+
+WORKDIR /var/local
+
+COPY codeeducation.go ./
+
+RUN go build codeeducation.go
+
+CMD ["./codeeducation"]
+
+FROM scratch
+
+COPY --from=gobuilder /var/local/codeeducation /
+
+CMD ["/codeeducation"]
